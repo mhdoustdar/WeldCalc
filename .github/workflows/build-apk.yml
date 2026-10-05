@@ -30,21 +30,29 @@ jobs:
           echo "$ANDROID_SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
           echo "$ANDROID_SDK_ROOT/emulator" >> "$GITHUB_PATH"
 
+      - name: Update Android SDK package metadata
+        run: |
+          sdkmanager --update || true
+
       - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses > /dev/null || true
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
 
       - name: Install Android API 37
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+        run: |
+          sdkmanager "platforms;android-37.0" "build-tools;37.0.0"
+          ln -sfn android-37.0 "$ANDROID_SDK_ROOT/platforms/android-37"
 
       - name: Install Gradle 9.3.1
         run: |
-          curl -fsSL -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-8.9-bin.zip
+          curl -fsSL -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-9.3.1-bin.zip
           unzip -q /tmp/gradle.zip -d /tmp
-          echo "/tmp/gradle-8.9/bin" >> "$GITHUB_PATH"
+          echo "/tmp/gradle-9.3.1/bin" >> "$GITHUB_PATH"
 
       - name: Verify build environment
         run: |
           java -version
+          gradle --version
           sdkmanager --version
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
           ls "$ANDROID_SDK_ROOT/platforms"
