@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.LocalLayoutDirection
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 import com.example.weldcalc.data.StandardData
@@ -157,7 +158,7 @@ fun SpotScreen() {
         Text("برای embossment مثلثی: Force = 20 daN/mm، Current = 750 A/mm و Time = 8–10 cycles؛ این بخش برآورد مرحله مطالعه است.",style=MaterialTheme.typography.bodySmall)
     }
 }
-private fun Emboss.currentA(coated:Boolean,m:Double)=((if(coated)coatedA else bareA)*m).toInt()
+private fun StandardData.Emboss.currentA(coated:Boolean,m:Double)=((if(coated)coatedA else bareA)*m).toInt()
 
 @Composable fun StandardScreen(){
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){
